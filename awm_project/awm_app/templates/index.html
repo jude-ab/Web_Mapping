@@ -9,6 +9,7 @@
 </head>
 <body>
     {% if request.user.is_authenticated %}
+        <div class="logout-container">
         <a href="{% url 'user_logout' %}">Logout</a>
     {% endif %}
 

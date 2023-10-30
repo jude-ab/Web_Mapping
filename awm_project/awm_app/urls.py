@@ -1,6 +1,5 @@
 from django.urls import path
 from .views import map_view, user_login, user_logout, user_registration
-from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('map/', map_view, name='map_view'),
