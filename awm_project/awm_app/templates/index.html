@@ -1,0 +1,67 @@
+{% load static%}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stone Circles</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" /> 
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+<body>
+    {% if request.user.is_authenticated %}
+        <a href="{% url 'user_logout' %}">Logout</a>
+    {% endif %}
+
+    <div id="map" style="height: 500px;"></div>
+    <p id="mapDescription">This map shows the locations of all stone circles in Ireland.
+    <br>
+    Irish stone circles are among the island's earliest ancient monuments, having existed for more than 4,000 years. The ancient Irish people probably used stone circles for ceremonial and spiritual purposes. They might have been connected to rituals, moon phases, and solstices. In Ireland, a lot of stone circles are oriented in relation to particular celestial bodies, such the sun's rising or setting on particular days. This implies a significance relating to astronomy and calendar.</p>
+
+    <button id="getLocationButton">Get My Current Location!</button>
+    <script>
+        var map = L.map('map', { doubleClickZoom: false }).setView([53.349805, -7.261649], 6); // Center of Ireland with a zoom level of 6
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        function onLocationFound(e) {
+            var radius = e.accuracy;
+            var lat = e.latlng.lat;
+            var lon = e.latlng.lng;
+            var location = lat + ", " + lon;
+
+            L.marker(e.latlng).addTo(map)
+                .bindPopup("Location Found.\n\nLat: " + lat + ", Lon: " + lon).openPopup();
+
+            L.circle(e.latlng, radius).addTo(map);
+        }
+
+        // Set up a location found event listener
+        map.on('locationfound', onLocationFound);
+
+        // Get My Current Location button click event
+        document.getElementById('getLocationButton').addEventListener('click', function() {
+            map.locate({ setView: true, maxZoom: 30 });
+        });
+
+        var stoned_circles = [
+        {% for circle in stone_circles %}
+            {
+                "lat": {{ circle.lat }},
+                "lon": {{ circle.lon }}
+            }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+        ];
+
+        // Loop through the stoned_circles and add markers for each data point
+        stoned_circles.forEach(function(data) {
+            L.marker([data.lat, data.lon]).addTo(map);  
+        });
+
+        console.log(stoned_circles);
+
+    </script>
+</body>
+</html>
