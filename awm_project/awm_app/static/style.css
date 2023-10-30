@@ -60,3 +60,27 @@ margin-left: 25%;
     }
 }
 
+/* Style for form fields */
+.form-container {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Media query for screens with a maximum width of 768px */
+@media screen and (max-width: 768px) {
+    .form-container {
+        top: 30%; /* Adjust the vertical position for smaller screens */
+    }
+}
+
+/* Media query for screens with a maximum width of 480px */
+@media screen and (max-width: 480px) {
+    .form-container {
+        top: 20%; /* Further adjust the vertical position for smaller screens */
+    }
+}
+
+
+

@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from .models import StoneCircle
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
-from .forms import RegistrationForm, UserLoginForm
+from .forms import RegistrationForm 
+from .models import UserProfile
 
 def map_view(request):
         stone_circles = StoneCircle.objects.all()
@@ -19,6 +20,9 @@ def user_login(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
+                # If you're using UserProfile, you can access it like this:
+                user_profile, created = UserProfile.objects.get_or_create(user=user, defaults={'username': username})
+                # Redirect to your desired page
                 return redirect('map_view')
     else:
         form = AuthenticationForm()

@@ -1,19 +1,19 @@
-
-{% if messages %}
-<div class="messages">
-    {% for message in messages %}
-    <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
-    {% endfor %}
-</div>
-{% endif %}
-
+{%load static%}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
 <body>
-    <h1>Login</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
-    <p>Don't have an account? <a href="{% url 'user_registration' %}">Register here</a>.</p>
+    <div class="form-container">
+        <h1>Login</h1>
+        <form method="post" class="your-form-class">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="your-button-class">Login</button>
+        </form>
+        <p>Don't have an account? <a href="{% url 'user_registration' %}">Register here</a>.</p>
+    </div>
 </body>
 </html>

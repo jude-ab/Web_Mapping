@@ -34,7 +34,7 @@
             var location = lat + ", " + lon;
 
             L.marker(e.latlng).addTo(map)
-                .bindPopup("Location Found.\n\nLat: " + lat + ", Lon: " + lon).openPopup();
+                .bindPopup("Location Found at:\n\nLat: " + lat + ", Lon: " + lon).openPopup();
 
             L.circle(e.latlng, radius).addTo(map);
         }

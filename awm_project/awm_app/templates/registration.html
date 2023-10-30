@@ -1,24 +1,21 @@
-{% load crispy_forms_tags %}
-{% if messages %}
-<div class="messages">
-    {% for message in messages %}
-    <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
-    {% endfor %}
-</div>
-{% endif %}
-
+{%load static%}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Registration</title>
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <h1>Register</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
-    </form>
-    <p>Already have an account? <a href="{% url 'user_login' %}">Login here</a>.</p>
+    <div class="form-container">
+        <h1>Register</h1>
+        <form method="post" class="your-form-class">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="your-button-class">Sign Up!</button>
+        </form>
+        <p>Already Registered? <a href="{% url 'user_login' %}">Login here</a>.</p>
+    </div>
 </body>
 </html>
+
+
