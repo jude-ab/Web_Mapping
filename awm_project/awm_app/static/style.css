@@ -4,83 +4,18 @@ height: 50%;
 margin-left: 25%;
 }
 
-/* Media query for screens smaller than 768px */
-@media (max-width: 768px) {
-    #map {
-        height: 200px; /* Adjust the height for smaller screens */
-    }
-} 
-
-/* Style for the button */
-#getLocationButton {
-    background-color: #ce57ac; /* Green background */
-    color: black; /* White text */
-    padding: 10px 20px; /* Padding around the text */
-    border: none; /* No border */
-    cursor: pointer; /* Cursor style on hover */
-    margin-top: 1%;
-    margin-left: 42%;
+.login-form {
+    background-color: #f7f7f7;
+    padding: 50px 200px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
 }
 
-/* Style for the paragraph */
-#mapDescription {
-    text-align: center; /* Center align the text */
+.centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
-
-/* Media queries for responsiveness */
-@media screen and (max-width: 768px) {
-    /* Adjust styles for screens with a max width of 768px */
-    #mapDescription {
-        font-size: 90%; /* Use a percentage for font size relative to parent element */
-        margin: 2%; /* Use a percentage for margin relative to parent element */
-        text-align: center; /* Center the text */
-    }
-
-    #getLocationButton {
-        padding: 3% 10%; /* Use percentages for padding relative to button width */
-        font-size: 90%; /* Use a percentage for font size relative to parent element */
-        display: block; /* Make the button a block-level element */
-        margin: 0 auto; /* Center the button horizontally */
-    }
-}
-
-@media screen and (max-width: 480px) {
-    /* Adjust styles for screens with a max width of 480px */
-    #mapDescription {
-        font-size: 80%;
-        margin: 2%; /* Use a percentage for margin relative to parent element */
-        text-align: center; /* Center the text */
-    }
-
-    #getLocationButton {
-        padding: 2% 8%; /* Use percentages for padding relative to button width */
-        font-size: 80%; /* Use a percentage for font size relative to parent element */
-        display: block; /* Make the button a block-level element */
-        margin: 0 auto; /* Center the button horizontally */
-    }
-}
-
-/* Style for form fields */
-.form-container {
-    position: absolute;
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-/* Media query for screens with a maximum width of 768px */
-@media screen and (max-width: 768px) {
-    .form-container {
-        top: 30%; /* Adjust the vertical position for smaller screens */
-    }
-}
-
-/* Media query for screens with a maximum width of 480px */
-@media screen and (max-width: 480px) {
-    .form-container {
-        top: 20%; /* Further adjust the vertical position for smaller screens */
-    }
-}
-
-
-
