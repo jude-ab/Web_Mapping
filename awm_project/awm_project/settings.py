@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-vf*fmpye3f*#col@wb^$n#q*mu1dly+d@5s7hkk_ww%k+mffp!'
+#SECRET_KEY = 'django-insecure-vf*fmpye3f*#col@wb^$n#q*mu1dly+d@5s7hkk_ww%k+mffp!'
+secret_key_file_path = BASE_DIR / 'secret_key.txt'
+with open(secret_key_file_path) as f:
+    SECRET_KEY = f.read().strip()
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True 
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -60,7 +65,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'awm_project.urls'
 
-import os  
+ 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -88,8 +93,8 @@ DATABASES = {
         'NAME': 'gis',             # Make sure this is the correct database name you have set up
         'USER': 'docker',
         'PASSWORD': 'docker',
-        'HOST': 'localhost',    # Using the network alias
-        'PORT': '25432', 
+        'HOST': 'wmap_postgis',    # Using the network alias
+        'PORT': '5432', 
     }
 }
 
@@ -125,20 +130,59 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-
+import socket
 STATIC_URL = '/static/'
 # STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+class docker_config:
+    POSTGIS_PORT = '5432'  
+    DEPLOY_SECURE = False
+    awm_project = 'awm_project'
+
+if socket.gethostname() == "judes-Air":
+    DATABASES["default"]["HOST"] = "localhost"
+    DATABASES["default"]["PORT"] = 25432
+    DEPLOY_SECURE = False
+else:
+    DATABASES["default"]["HOST"] = "wmap_postgis"
+    DATABASES["default"]["PORT"] = 5432
+    DATABASES["default"]["USER"] = "docker"
+    DATABASES["default"]["PASSWORD"] = "docker"
+    DEPLOY_SECURE = True
+
+    # Set DEPLOY_SECURE to True only for LIVE deployment
+if DEPLOY_SECURE:
+    DEBUG = False
+    TEMPLATES[0]["OPTIONS"]["debug"] = False
+    # ALLOWED_HOSTS = ['.your-domain-name.xyz', 'localhost',]
+    ALLOWED_HOSTS = ['swiper.ltd', '13.50.99.33', ]  # Update this line
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+else:
+    DEBUG = True
+    TEMPLATES[0]["OPTIONS"]["debug"] = True
+    ALLOWED_HOSTS = ['*', ]
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_SECURE = False
+
+
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField' 
+
+

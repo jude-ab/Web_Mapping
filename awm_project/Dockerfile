@@ -1,11 +1,10 @@
-##
 ## Dockerfile to generate a Docker image from a GeoDjango project
 ##
 
 # Start from an existing image with Miniconda installed
 FROM continuumio/miniconda3
 
-MAINTAINER Jude Abouhajar
+LABEL maintainer = "Jude Abouhajar"
 
 ENV PYTHONUNBUFFERED 1
 ENV DJANGO_SETTINGS_MODULE=awm_project.settings
@@ -30,7 +29,7 @@ RUN conda env create -n DjangoProject --file ENV.yml
 
 # Make RUN commands use the new environment
 # See https://pythonspeed.com/articles/activate-conda-dockerfile/ for explanation
-RUN echo "conda activate DjangoProject" >> ~/.bashrc
+RUN echo "source activate DjangoProject" >> ~/.bashrc
 SHELL ["/bin/bash", "--login", "-c"]
 
 # Set up conda to match our test environment
@@ -51,4 +50,3 @@ EXPOSE 8001
 # Run "uwsgi". uWSGI is a Web Server Gateway Interface (WSGI) server implementation that is typically used to run Python
 # web applications.
 CMD uwsgi --ini uwsgi.ini
-
